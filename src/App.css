@@ -2,3 +2,13 @@ body {
   background: linear-gradient(27deg, rgba(8, 0, 0, 1) 0%, rgba(19, 11, 102, 1) 90%);
   min-height: 100vh;
 }
+.card:hover {
+  background-color: #130b66;
+}
+
+.card {
+  background-color: transparent;
+  padding: 10px;
+  height: 280px;
+  cursor: pointer;
+}

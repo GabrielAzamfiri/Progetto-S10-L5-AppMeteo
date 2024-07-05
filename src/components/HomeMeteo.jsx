@@ -83,12 +83,9 @@ const HomeMeteo = props => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [infoLatLon]);
-  useEffect(()=>{
-if(infoWeather){
-    setInfoWeather(infoWeather)
-}
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  },[])
+ 
+ 
+  
 
   return (
     <Container className="mt-5">
@@ -143,7 +140,7 @@ if(infoWeather){
           </Row>
           <Row>
             <Alert variant="transparent" className="mt-5">
-              <Link to={"/Meteo/" + props.city} className="link-offset-1 link-underline link-underline-opacity-0 link-underline-opacity-100-hover text-white fs-3" href="#">
+              <Link to={"/Meteo/" + props.city + "/" + infoLatLon[0].lat + "/" + infoLatLon[0].lon} className="link-offset-1 link-underline link-underline-opacity-0 link-underline-opacity-100-hover text-white fs-3" href="#">
                
               Next hours weather <ArrowRight/>
               </Link>
