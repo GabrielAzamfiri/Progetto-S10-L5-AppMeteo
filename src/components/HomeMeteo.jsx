@@ -90,26 +90,26 @@ const HomeMeteo = props => {
   return (
     <Container className="mt-5">
       {infoCity && (
-        <div className="">
-          <div className="d-flex justify-content-between align-items-center">
-            <h2 className="d-flex align-items-center justify-content-between">
+        <div >
+          <div className="d-sm-block d-md-flex justify-content-between align-items-center">
+            <h2 className="d-flex align-items-center ">
               <GeoAlt className="me-2" /> {infoCity.name}
             </h2>
             <h2>{new Date(infoCity.dt * 1000).toLocaleTimeString("eng", options)}</h2>
           </div>
           <Row className="d-flex justify-content-between mt-5">
-            <Col className="d-flex flex-column justify-content-center align-items-center">
+            <Col xs={12}  lg={4}  className="d-flex flex-column justify-content-center align-items-center">
               <h2 className="display-1">
                 <ThermometerHalf className="me-3" /> {Math.round(infoCity.main.temp - 273.15)}°C
               </h2>
             </Col>
-            <Col>
+            <Col xs={12} md={6} lg={4} >
               <div id="icon" className="d-flex flex-column justify-content-center align-items-center">
                 <img id="wicon" src={`http://openweathermap.org/img/w/${infoCity.weather[0].icon}.png`} width={150} alt="Weather icon" />
                 <h2>{infoCity.weather[0].description.toUpperCase()}</h2>
               </div>
             </Col>
-            <Col className="d-flex flex-column justify-content-center align-items-center">
+            <Col xs={12} md={6} lg={4} className="d-flex flex-column justify-content-center align-items-center">
               <h3>
                 <span className="opacity-50 lead fs-3">Humidity: </span>
                 {Math.round(infoCity.main.humidity)}%
@@ -149,7 +149,7 @@ const HomeMeteo = props => {
                   infoWeather.list.slice(0, 5).map((day, index) => (
                     <ListGroup.Item variant="info" as="li" key={index} className="d-flex align-items-center justify-content-between border rounded my-1">
                       <img src={`http://openweathermap.org/img/w/${day.weather[0].icon}.png`} width={50} alt="Weather icon" />
-                      <h3 className="lead fs-4">{new Date(day.dt_txt).toLocaleTimeString("eng", options)}</h3>
+                      <h3 className="lead fs-4 w-50">{new Date(day.dt_txt).toLocaleTimeString("eng", options)}</h3>
                       <h3>
                         <span className="opacity-50 lead fs-3">Temp: </span>
                         {Math.round(day.main.temp - 273.15)}°C

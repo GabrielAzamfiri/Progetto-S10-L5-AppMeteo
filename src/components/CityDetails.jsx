@@ -20,6 +20,7 @@ const CityDetails = () => {
   };
 
   const settings = {
+    dots:false,
     infinite: true,
     speed: 500,
     slidesToShow: 5,
@@ -32,28 +33,28 @@ const CityDetails = () => {
           slidesToScroll: 2,
           speed: 500,
           infinite: true,
-          dots: true,
+          
         },
       },
 
       {
-        breakpoint: 778,
+        breakpoint: 992,
         settings: {
           slidesToShow: 3,
           slidesToScroll: 1,
           speed: 500,
           infinite: true,
-          dots: true,
+         
         },
       },
       {
-        breakpoint: 576,
+        breakpoint: 767,
         settings: {
           slidesToShow: 2,
           slidesToScroll: 1,
           speed: 500,
           infinite: true,
-          dots: true,
+          
         },
       },
     ],
@@ -112,7 +113,7 @@ const CityDetails = () => {
       )}
       {selectedcard && (
         <Row>
-          <Col md={8} className="border  my-5 w-50 m-auto p-3">
+          <Col  className="border  my-5 w-50 m-auto p-3">
             <h1 className="lead fs-1 text-center ">{citta.toUpperCase()}</h1>
 
             <h1 className="truncate d-flex justify-content-center align-items-center fs-3 mb-5">{new Date(selectedcard.dt_txt).toLocaleTimeString("eng", options)}</h1>
@@ -124,21 +125,21 @@ const CityDetails = () => {
               <img src={`http://openweathermap.org/img/w/${selectedcard.weather[0].icon}.png`} width={100} alt={selectedcard.weather[0].description} />
             </h3>
 
-            <h3 className="mb-2 d-flex justify-content-between align-items-center">
-            <span className="opacity-75 lead fs-5">Min: {Math.round(selectedcard.main.temp_min - 273.15)}°C</span>
-            <span className="opacity-75 lead fs-5">Min: {Math.round(selectedcard.main.temp_max - 273.15)}°C</span>
+            <h3 className="mb-3 d-flex justify-content-between align-items-center">
+            <span className="opacity-75 lead fs-3">Min: {Math.round(selectedcard.main.temp_min - 273.15)}°C</span>
+            <span className="opacity-75 lead fs-3">Min: {Math.round(selectedcard.main.temp_max - 273.15)}°C</span>
             </h3>
             <h3 className="mb-2 d-flex justify-content-between align-items-center">
-            <span className="opacity-75 lead fs-5">Feels like: {Math.round(selectedcard.main.feels_like - 273.15)}°C</span>
-            <span className="opacity-75 lead fs-5">Humidity: {selectedcard.main.humidity}%</span>
+            <span className="opacity-75 lead fs-4">Feels like: {Math.round(selectedcard.main.feels_like - 273.15)}°C</span>
+            <span className="opacity-75 lead fs-4">Humidity: {selectedcard.main.humidity}%</span>
             </h3>
             <h3 className="mb-2 d-flex justify-content-between align-items-center">
-            <span className="opacity-75 lead fs-5">Pressure: {selectedcard.main.pressure}hPa</span>
-            <span className="opacity-75 lead fs-5">Wind: {selectedcard.wind.speed}m/s</span>
+            <span className="opacity-75 lead fs-4">Pressure: {selectedcard.main.pressure}hPa</span>
+            <span className="opacity-75 lead fs-4">Wind: {selectedcard.wind.speed}m/s</span>
             </h3>
             <h3 className="mb-2 d-flex justify-content-between align-items-center">
-            <span className="opacity-75 lead fs-5">Visibility: {selectedcard.visibility}m</span>
-            <span className="opacity-75 lead fs-5">Cloudiness: {selectedcard.clouds.all}%</span>
+            <span className="opacity-75 lead fs-4">Visibility: {selectedcard.visibility}m</span>
+            <span className="opacity-75 lead fs-4">Cloudiness: {selectedcard.clouds.all}%</span>
             </h3>
             
            
