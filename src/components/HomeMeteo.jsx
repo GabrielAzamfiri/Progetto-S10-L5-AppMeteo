@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react";
 import { Alert, Col, Container, ListGroup, Row } from "react-bootstrap";
 import { ArrowRight, GeoAlt, Sunrise, Sunset, ThermometerHalf } from "react-bootstrap-icons";
-import { Link } from "react-router-dom";
+import { Link,  useNavigate,  useParams } from "react-router-dom";
 
 const HomeMeteo = props => {
+  const params = useParams();
+  const citta = params.citta;
   const [infoLatLon, setInfoLatLon] = useState(null);
 
   const [infoCity, setInfoCity] = useState(null);
@@ -17,9 +19,10 @@ const HomeMeteo = props => {
   };
 
   // **************************************************getLatLon****************************************************************************************
-
+ 
+  const navigate = useNavigate();
   const getLatLon = () => {
-    fetch(`http://api.openweathermap.org/geo/1.0/direct?q=${props.city}&appid=e8d87bd81900f30c8de4279bdbba4c0e`)
+    fetch(`http://api.openweathermap.org/geo/1.0/direct?q=${citta}&appid=e8d87bd81900f30c8de4279bdbba4c0e`)
       .then(resp => {
         if (resp.ok) {
           // restituiamo il dato convertito in array da JSON
@@ -31,7 +34,11 @@ const HomeMeteo = props => {
       .then(objResp => {
         setInfoLatLon(objResp);
       })
-      .catch(err => alert(err));
+      .catch(err => {
+        alert(err)
+        navigate("*")
+      });
+      
   };
 
   // **************************************************getInfoCity****************************************************************************************
@@ -49,7 +56,10 @@ const HomeMeteo = props => {
       .then(objResp => {
         setInfoCity(objResp);
       })
-      .catch(err => alert(err));
+      .catch(err => {
+        alert(err)
+        navigate("*")
+      });
   };
 
   // **************************************************getNextDaysInfoCity****************************************************************************************
@@ -68,7 +78,10 @@ const HomeMeteo = props => {
         console.log(objResp);
         setInfoWeather(objResp);
       })
-      .catch(err => alert(err));
+      .catch(err => {
+        alert(err)
+        navigate("*")
+      });
   };
   useEffect(() => {
     getLatLon();
@@ -77,10 +90,10 @@ const HomeMeteo = props => {
   }, [props.city]);
 
   useEffect(() => {
-    if (infoLatLon != null) {
+    if (infoLatLon != null && infoLatLon.length >0) {
       getInfoCity();
       getNextDaysInfoCity();
-    }
+    } 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [infoLatLon]);
  

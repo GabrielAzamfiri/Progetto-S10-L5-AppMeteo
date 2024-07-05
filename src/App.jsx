@@ -5,6 +5,8 @@ import CityDetails from "./components/CityDetails";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import MyNavbar from "./components/MyNavbar";
 import { useState } from "react";
+import NotFound from "./components/NotFound";
+import Search from "./components/Search";
 
 
 function App() {
@@ -21,11 +23,15 @@ function App() {
       <BrowserRouter>
         <MyNavbar searchFunc={getsearchCity} />
         <Routes>
+          <Route path="/" element={<Search searchFunc={getsearchCity}/>} />
+          
           {searchCity && (
-            <Route path="/" element={<HomeMeteo city={searchCity} />} />
+            <Route path="/:citta" element={<HomeMeteo />} />
           ) }
 
           <Route path="/Meteo/:citta/:lat/:lon" element={<CityDetails />} />
+          <Route path="*" element={<NotFound />} />
+
         </Routes>
       </BrowserRouter>
     </div>
