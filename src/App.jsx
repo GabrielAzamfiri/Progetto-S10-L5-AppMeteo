@@ -8,27 +8,26 @@ import { useState } from "react";
 
 
 function App() {
+  const [searchCity, setSearchCity] = useState("");
+  const [infoWeather, setInfoWeather] = useState(null)
 
-  const [searchCity, setSearchCity]= useState("")
-
-const getsearchCity=(searchedCity)=>{
-  setSearchCity(searchedCity)
-  console.log(searchedCity)
-}
+  const getsearchCity = searchedCity => {
+    setSearchCity(searchedCity);
+    console.log(searchedCity);
+  };
   return (
     <div className="App">
-
-
       <BrowserRouter>
-      <MyNavbar searchFunc={getsearchCity}/>
+        <MyNavbar searchFunc={getsearchCity} />
         <Routes>
-          {searchCity && <Route path="/" element={<HomeMeteo  city={searchCity}/>} />}
-          
-          <Route path="/Meteo" element={<CityDetails />} />
+          {searchCity && (
+            <Route path="/" element={<HomeMeteo city={searchCity} takeWeather={setInfoWeather}/>} />
+          ) }
+
+          <Route path="/Meteo/:citta" element={<CityDetails placeInfoWeather={infoWeather }/>} />
         </Routes>
       </BrowserRouter>
     </div>
-   
   );
 }
 
