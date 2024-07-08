@@ -25,9 +25,9 @@ function App() {
         <Routes>
           <Route path="/" element={<Search searchFunc={getsearchCity}/>} />
           
-          {searchCity && (
-            <Route path="/:citta" element={<HomeMeteo />} />
-          ) }
+        
+            {searchCity && <Route path="/Home-Meteo" element={<HomeMeteo  searchCity={searchCity}/>} />}
+      
 
           <Route path="/Meteo/:citta/:lat/:lon" element={<CityDetails />} />
           <Route path="*" element={<NotFound />} />

@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 import { Alert, Col, Container, ListGroup, Row } from "react-bootstrap";
 import { ArrowRight, GeoAlt, Sunrise, Sunset, ThermometerHalf } from "react-bootstrap-icons";
-import { Link,  useNavigate,  useParams } from "react-router-dom";
+import { Link,  useNavigate} from "react-router-dom";
 
-const HomeMeteo = props => {
-  const params = useParams();
-  const citta = params.citta;
+const HomeMeteo = (props) => {
+ 
+ 
   const [infoLatLon, setInfoLatLon] = useState(null);
 
   const [infoCity, setInfoCity] = useState(null);
@@ -22,13 +22,15 @@ const HomeMeteo = props => {
  
   const navigate = useNavigate();
   const getLatLon = () => {
-    fetch(`http://api.openweathermap.org/geo/1.0/direct?q=${citta}&appid=e8d87bd81900f30c8de4279bdbba4c0e`)
+    fetch(`http://api.openweathermap.org/geo/1.0/direct?q=${props.searchCity}&appid=e8d87bd81900f30c8de4279bdbba4c0e`)
       .then(resp => {
         if (resp.ok) {
           // restituiamo il dato convertito in array da JSON
           return resp.json();
         } else {
+          navigate("/Not-Found");
           throw new Error("Errore nel reperimento del commento");
+          
         }
       })
       .then(objResp => {
@@ -36,7 +38,7 @@ const HomeMeteo = props => {
       })
       .catch(err => {
         alert(err)
-        navigate("*")
+         navigate("/Not-Found");
       });
       
   };
@@ -58,7 +60,6 @@ const HomeMeteo = props => {
       })
       .catch(err => {
         alert(err)
-        navigate("*")
       });
   };
 
@@ -80,20 +81,25 @@ const HomeMeteo = props => {
       })
       .catch(err => {
         alert(err)
-        navigate("*")
       });
   };
   useEffect(() => {
     getLatLon();
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [props.city]);
+  }, [props.searchCity]);
 
   useEffect(() => {
     if (infoLatLon != null && infoLatLon.length >0) {
       getInfoCity();
       getNextDaysInfoCity();
-    } 
+    }
+    //  else{
+    //   setInterval(() => {
+    //     navigate("/Not-Found");
+
+    //   }, 2000);
+    // }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [infoLatLon]);
  
@@ -153,7 +159,7 @@ const HomeMeteo = props => {
           </Row>
           <Row>
             <Alert variant="transparent" className="mt-5">
-              <Link to={"/Meteo/" + citta + "/" + infoLatLon[0].lat + "/" + infoLatLon[0].lon} className="link-offset-1 link-underline link-underline-opacity-0 link-underline-opacity-100-hover text-white fs-3" href="#">
+              <Link to={"/Meteo/" + props.searchCity + "/" + infoLatLon[0].lat + "/" + infoLatLon[0].lon} className="link-offset-1 link-underline link-underline-opacity-0 link-underline-opacity-100-hover text-white fs-3" href="#">
                
               Next hours weather <ArrowRight/>
               </Link>

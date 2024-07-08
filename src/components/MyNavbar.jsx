@@ -2,7 +2,7 @@ import { useState } from "react";
 import {  Button, Container, Form,  Nav, Navbar } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 
-const MyNavbar = props => {
+const MyNavbar = (props) => {
   const [value, setValue] = useState("");
   const navigate = useNavigate();
   
@@ -10,7 +10,7 @@ const MyNavbar = props => {
     <div>
       <Navbar expand="lg" className="bg-transparent">
         <Container fluid>
-          <Navbar.Brand href="#">
+          <Navbar.Brand href="/">
             <img width={50} src="https://cdn6.aptoide.com/imgs/9/a/8/9a8b8981bbe2a3ecf001ff1421828e0e_icon.png" alt="logo nuvola e sole" />
           </Navbar.Brand>
           <Navbar.Toggle aria-controls="navbarScroll" />
@@ -35,8 +35,8 @@ const MyNavbar = props => {
               <Button
                 onClick={e => {
                   e.preventDefault();
-                  props.searchFunc(value);
-                  navigate("/" + value)
+                  props.searchFunc(value)
+                  navigate("/Home-Meteo")
                 }}
                 type="submit"
                 value="Submit"
