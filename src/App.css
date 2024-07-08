@@ -12,3 +12,23 @@ body {
   height: 280px;
   cursor: pointer;
 }
+li img {
+  width: 60px;
+}
+.card img {
+  width: 100px;
+}
+#icon img,
+.weather img {
+  width: 300px;
+}
+.temp img,
+.humidity img,
+.sunset img,
+.sunrise img {
+  width: 150px;
+}
+.wind img,
+.w-120 img {
+  width: 120px;
+}

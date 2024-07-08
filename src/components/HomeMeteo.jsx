@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 import { Alert, Col, Container, ListGroup, Row } from "react-bootstrap";
-import { ArrowRight, GeoAlt, Sunrise, Sunset, ThermometerHalf } from "react-bootstrap-icons";
-import { Link,  useNavigate} from "react-router-dom";
+import { ArrowRight, GeoAlt } from "react-bootstrap-icons";
+import { Link, useNavigate } from "react-router-dom";
 
-const HomeMeteo = (props) => {
- 
- 
+import WeatherIcon from "./WeatherIcons";
+
+const HomeMeteo = props => {
   const [infoLatLon, setInfoLatLon] = useState([]);
 
   const [infoCity, setInfoCity] = useState(null);
@@ -13,13 +13,15 @@ const HomeMeteo = (props) => {
   const [infoWeather, setInfoWeather] = useState(null);
   const options = {
     weekday: "long",
-    year: "numeric",
     month: "long",
     day: "numeric",
+    hour: "numeric",
+    minute: "numeric",
+    seconds: false,
   };
 
   // **************************************************getLatLon****************************************************************************************
- 
+
   const navigate = useNavigate();
   const getLatLon = () => {
     fetch(`http://api.openweathermap.org/geo/1.0/direct?q=${props.searchCity}&appid=e8d87bd81900f30c8de4279bdbba4c0e`)
@@ -28,23 +30,20 @@ const HomeMeteo = (props) => {
           // restituiamo il dato convertito in array da JSON
           return resp.json();
         } else {
-         
           throw new Error("Errore nel reperimento del commento");
-          
         }
       })
       .then(arrResp => {
-        if(arrResp.length > 0) {
-
+        if (arrResp.length > 0) {
           setInfoLatLon(arrResp);
-        }else{
+        } else {
           navigate("/Not-Found");
-        }})
+        }
+      })
       .catch(err => {
-        alert(err)
-         navigate("/Not-Found");
+        alert(err);
+        navigate("/Not-Found");
       });
-      
   };
 
   // **************************************************getInfoCity****************************************************************************************
@@ -63,7 +62,7 @@ const HomeMeteo = (props) => {
         setInfoCity(objResp);
       })
       .catch(err => {
-        alert(err)
+        alert(err);
       });
   };
 
@@ -84,7 +83,7 @@ const HomeMeteo = (props) => {
         setInfoWeather(objResp);
       })
       .catch(err => {
-        alert(err)
+        alert(err);
       });
   };
   useEffect(() => {
@@ -94,22 +93,18 @@ const HomeMeteo = (props) => {
   }, [props.searchCity]);
 
   useEffect(() => {
-    if ( infoLatLon.length >0) {
+    if (infoLatLon.length > 0) {
       getInfoCity();
       getNextDaysInfoCity();
-    
     }
-   
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [infoLatLon]);
- 
- 
-  
 
   return (
     <Container className="mt-5">
       {infoCity && (
-        <div >
+        <div>
           <div className="d-sm-block d-md-flex justify-content-between align-items-center">
             <h2 className="d-flex align-items-center ">
               <GeoAlt className="me-2" /> {infoCity.name}
@@ -117,40 +112,39 @@ const HomeMeteo = (props) => {
             <h2>{new Date(infoCity.dt * 1000).toLocaleTimeString("eng", options)}</h2>
           </div>
           <Row className="d-flex justify-content-between mt-5">
-            <Col xs={12}  lg={4}  className="d-flex flex-column justify-content-center align-items-center">
-              <h2 className="display-1">
-                <ThermometerHalf className="me-3" /> {Math.round(infoCity.main.temp - 273.15)}°C
-              </h2>
+            <Col xs={12} lg={4} className="d-flex justify-content-center align-items-center temp">
+              <WeatherIcon code="termometer" />
+              <h2 className="display-1">{Math.round(infoCity.main.temp - 273.15)}°C</h2>
             </Col>
-            <Col xs={12} md={6} lg={4} >
+            <Col xs={12} md={6} lg={4}>
               <div id="icon" className="d-flex flex-column justify-content-center align-items-center">
-                <img id="wicon" src={`http://openweathermap.org/img/w/${infoCity.weather[0].icon}.png`} width={150} alt="Weather icon" />
+                <WeatherIcon code={infoCity.weather[0].icon} />
                 <h2>{infoCity.weather[0].description.toUpperCase()}</h2>
               </div>
             </Col>
-            <Col xs={12} md={6} lg={4} className="d-flex flex-column justify-content-center align-items-center">
-              <h3>
-                <span className="opacity-50 lead fs-3">Humidity: </span>
-                {Math.round(infoCity.main.humidity)}%
-              </h3>
-
-              <h3>
-                <span className="opacity-50 lead fs-3">Wind: </span>
-                {Math.round(infoCity.wind.speed * 3.6)} km/h
-              </h3>
+            <Col xs={12} md={6} lg={4} className="d-flex flex-column justify-content-center align-items-center ">
+              <div className="d-flex justify-content-center align-items-center humidity">
+                <WeatherIcon code="humidity" />
+                <h2 className="fs-1">{Math.round(infoCity.main.humidity)}%</h2>
+              </div>
+              <div className="d-flex justify-content-center align-items-center wind">
+                <WeatherIcon code="wind" />
+                <h2 className="fs-1">{Math.round(infoCity.wind.speed * 3.6)} km/h</h2>
+              </div>
             </Col>
           </Row>
           <Row className="mt-5">
-            <Col className="d-flex flex-column justify-content-center align-items-center">
-              <Sunrise className="display-2" />
+            <Col className="d-flex flex-column justify-content-center align-items-center sunrise">
+              <WeatherIcon code="sunrise" />
               <h3>
                 <span className="opacity-50 lead fs-3">Sunrise: </span>
                 {new Date(infoCity.sys.sunrise * 1000).toLocaleTimeString("eng", { hour12: true })}
               </h3>
             </Col>
 
-            <Col className="d-flex flex-column justify-content-center align-items-center">
-              <Sunset className="display-2" />
+            <Col className="d-flex flex-column justify-content-center align-items-center sunset">
+              <WeatherIcon code="sunset" />
+
               <h3>
                 <span className="opacity-50 lead fs-3">Sunset: </span>
                 {new Date(infoCity.sys.sunset * 1000).toLocaleTimeString("eng", { hour12: true })}
@@ -159,20 +153,24 @@ const HomeMeteo = (props) => {
           </Row>
           <Row>
             <Alert variant="transparent" className="mt-5">
-              <Link to={"/Meteo/" + props.searchCity + "/" + infoLatLon[0].lat + "/" + infoLatLon[0].lon} className="link-offset-1 link-underline link-underline-opacity-0 link-underline-opacity-100-hover text-white fs-3" href="#">
-               
-              Next hours weather <ArrowRight/>
+              <Link
+                to={"/Meteo/" + props.searchCity + "/" + infoLatLon[0].lat + "/" + infoLatLon[0].lon}
+                className="link-offset-1 link-underline link-underline-opacity-0 link-underline-opacity-100-hover text-white fs-3"
+                href="#"
+              >
+                Next hours weather <ArrowRight />
               </Link>
               <ListGroup as="ul">
                 {infoWeather &&
                   infoWeather.list.slice(0, 5).map((day, index) => (
                     <ListGroup.Item variant="info" as="li" key={index} className="d-flex align-items-center justify-content-between border rounded my-1">
-                      <img src={`http://openweathermap.org/img/w/${day.weather[0].icon}.png`} width={50} alt="Weather icon" />
+                      <WeatherIcon code={day.weather[0].icon} />
                       <h3 className="lead fs-4 w-50">{new Date(day.dt_txt).toLocaleTimeString("eng", options)}</h3>
-                      <h3>
-                        <span className="opacity-50 lead fs-3">Temp: </span>
-                        {Math.round(day.main.temp - 273.15)}°C
-                      </h3>
+                      <div className="d-flex align-items-center  opacity-50 lead fs-3 ">  
+                        <WeatherIcon code="termometer2" /> 
+                        <span>{Math.round(day.main.temp - 273.15)}°C</span>
+                        
+                        </div>
                     </ListGroup.Item>
                   ))}
               </ListGroup>
