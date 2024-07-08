@@ -153,7 +153,7 @@ const HomeMeteo = props => {
           </Row>
           <Row>
             <Alert variant="transparent" className="mt-5">
-              <Link to={"/Meteo/" + props.city + "/" + infoLatLon[0].lat + "/" + infoLatLon[0].lon} className="link-offset-1 link-underline link-underline-opacity-0 link-underline-opacity-100-hover text-white fs-3" href="#">
+              <Link to={"/Meteo/" + citta + "/" + infoLatLon[0].lat + "/" + infoLatLon[0].lon} className="link-offset-1 link-underline link-underline-opacity-0 link-underline-opacity-100-hover text-white fs-3" href="#">
                
               Next hours weather <ArrowRight/>
               </Link>
