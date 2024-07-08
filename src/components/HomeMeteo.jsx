@@ -6,7 +6,7 @@ import { Link,  useNavigate} from "react-router-dom";
 const HomeMeteo = (props) => {
  
  
-  const [infoLatLon, setInfoLatLon] = useState(null);
+  const [infoLatLon, setInfoLatLon] = useState([]);
 
   const [infoCity, setInfoCity] = useState(null);
 
@@ -28,14 +28,18 @@ const HomeMeteo = (props) => {
           // restituiamo il dato convertito in array da JSON
           return resp.json();
         } else {
-          navigate("/Not-Found");
+         
           throw new Error("Errore nel reperimento del commento");
           
         }
       })
-      .then(objResp => {
-        setInfoLatLon(objResp);
-      })
+      .then(arrResp => {
+        if(arrResp.length > 0) {
+
+          setInfoLatLon(arrResp);
+        }else{
+          navigate("/Not-Found");
+        }})
       .catch(err => {
         alert(err)
          navigate("/Not-Found");
@@ -90,16 +94,12 @@ const HomeMeteo = (props) => {
   }, [props.searchCity]);
 
   useEffect(() => {
-    if (infoLatLon != null && infoLatLon.length >0) {
+    if ( infoLatLon.length >0) {
       getInfoCity();
       getNextDaysInfoCity();
+    
     }
-    //  else{
-    //   setInterval(() => {
-    //     navigate("/Not-Found");
-
-    //   }, 2000);
-    // }
+   
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [infoLatLon]);
  
